@@ -9,10 +9,16 @@ import { createAction } from 'redux-actions';
 }
  */
 
-export const changeChannel = createAction('CHANGE_CHANNEL_TASK');
+export const changeChannel = createAction('TASK_CHANGE_CHANNEL');
 
-export const addMessage = createAction('ADD_MESSAGE_TASK', ({ message }) => {
-  const id = 15;
-  const date = 'today';
-  return { message: { ...message, id, date } };
-});
+export const addMessage = createAction('TASK_ADD_MESSAGE');
+
+export const sendMessageRequest = createAction('TASK_SEND_MESSAGE_REQUEST');
+
+export const sendMessageSuccess = createAction('TASK_SEND_MESSAGE_SUCCESS');
+
+export const sendMessageFailure = createAction('TASK_SEND_MESSAGE_FAILURE');
+
+export const sendMessage = message => (dispatch) => {
+
+};

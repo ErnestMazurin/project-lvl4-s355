@@ -27,7 +27,7 @@ const currentChannelId = handleActions({
 }, initState.currentChannelId);
 
 const messages = handleActions({
-  [addMessage]: (state, { payload: { message } }) => [...state, message],
+  [addMessage]: (state, { payload: { id, attributes } }) => [...state, { id, ...attributes }],
 }, initState.messages);
 
 const channels = handleActions({
