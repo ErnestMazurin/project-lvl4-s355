@@ -1,15 +1,34 @@
 import React from 'react';
 
 class Channels extends React.Component {
+  changeChannelHandler = id => (event) => {
+    event.preventDefault();
+    this.props.changeChannel({ id });
+  };
+
   render() {
-    const { channels } = this.props;
+    const { channels, currentChannelId } = this.props;
     return (
-      <ul className="list-unstyled">
-        Channels:
-        {
-          channels.map(({ id, name }) => <li className="pl-1" key={id}>{`# ${name}`}</li>)
-        }
-      </ul>
+      <div>
+        <div className="mt-4 font-italic">Channels:</div>
+        <ul className="list-group">
+          {
+            channels.map(({ id, name }) => {
+              const activeClass = id === currentChannelId ? 'active' : '';
+              return (
+                <a
+                  key={id}
+                  className={`list-group-item list-group-item-action pl-1 ${activeClass}`}
+                  onClick={this.changeChannelHandler(id)}
+                  href=""
+                >
+                  {`# ${name}`}
+                </a>
+              );
+            })
+          }
+        </ul>
+      </div>
     );
   }
 }

@@ -1,14 +1,13 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../assets/application.css';
 
-import faker from 'faker';
-import cookies from 'js-cookie';
-import gon from 'gon';
 import io from 'socket.io-client';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
+import logger from 'redux-logger';
+import thunk from 'redux-thunk';
 
 import App from './containers/App';
 import reducer from './reducers';
@@ -16,10 +15,6 @@ import reducer from './reducers';
 if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
-
-const initState = {
-  channels: window.gon.channels,
-};
 
 /** channel = {
   id -> int
@@ -37,4 +32,9 @@ const initState = {
 }
  */
 
-ReactDOM.render((<Provider store={createStore(reducer, initState)}><App /></Provider>), document.getElementById('chat'));
+ReactDOM.render(
+  <Provider store={createStore(reducer, compose(applyMiddleware(logger), applyMiddleware(thunk)))}>
+    <App />
+  </Provider>,
+  document.getElementById('chat'),
+);
