@@ -28,17 +28,16 @@ if (process.env.NODE_ENV !== 'production') {
   id -> int,
   channelId -> int,
   author -> string,
-  date -> string,
+  date -> int,
   content -> string
 }
  */
 
 
 const store = createStore(reducer, compose(applyMiddleware(logger), applyMiddleware(thunk)));
-const socket = io();
 
-socket
-  .on('newMessage', ({ data }) => store.dispatch(actions.addMessage(data)));
+const socket = io();
+socket.on('newMessage', ({ data }) => store.dispatch(actions.addMessage(data)));
 
 ReactDOM.render(
   <Provider store={store}>

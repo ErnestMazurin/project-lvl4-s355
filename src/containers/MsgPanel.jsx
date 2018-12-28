@@ -2,6 +2,6 @@ import { connect } from 'react-redux';
 import MsgPanel from '../components/MsgPanel';
 import * as actionCreators from '../actions';
 
-const mapStateToProps = ({ currentChannelId, username }) => ({ currentChannelId, username });
+const mapStateToProps = ({ currentChannelId, username, msgRequestStatus }) => ({ currentChannelId, username, msgRequestStatus });
 
 export default connect(mapStateToProps, actionCreators)(MsgPanel);
