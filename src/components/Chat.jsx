@@ -37,9 +37,7 @@ const Message = ({ message: { username, date, content, isYou } }) => {
 
 const Chat = ({ messages }) => (
   <ul className="list-group list-group-flush">
-    {
-      messages.map(msg => <Message key={msg.id} message={msg} />)
-    }
+    {messages.map(msg => <Message key={msg.id} message={msg} />)}
   </ul>
 );
 

@@ -1,3 +1,4 @@
+import gon from 'gon';
 import { handleActions } from 'redux-actions';
 import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
@@ -9,8 +10,8 @@ const newUser = setAndGetUsername();
 const initState = {
   currentChannelId: 1,
   currentUsername: newUser,
-  messages: window.gon.messages,
-  channels: window.gon.channels,
+  messages: gon.messages,
+  channels: gon.channels,
   msgRequestStatus: 'success',
 };
 

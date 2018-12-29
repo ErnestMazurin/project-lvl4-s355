@@ -15,7 +15,8 @@ const mapStateToProps = ({ messages, currentChannelId, currentUsername }) => {
   const channelMessages = Object.values(messages)
     .filter(msg => msg.channelId === currentChannelId)
     .map(msg => ({ ...msg, isYou: (msg.username === currentUsername) }));
-  return { messages: _.reverse(channelMessages) };
+  const sortedMessages = _.reverse(_.sortedUniqBy(channelMessages, ({ date }) => date));
+  return { messages: sortedMessages };
 };
 
 export default connect(mapStateToProps)(Chat);

@@ -12,21 +12,14 @@ class Channels extends React.Component {
       <div>
         <div className="mt-4 font-italic">Channels:</div>
         <ul className="list-group">
-          {
-            channels.map(({ id, name }) => {
-              const activeClass = id === currentChannelId ? 'active' : '';
-              return (
-                <a
-                  key={id}
-                  className={`list-group-item list-group-item-action pl-1 ${activeClass}`}
-                  onClick={this.changeChannelHandler(id)}
-                  href=""
-                >
-                  {`# ${name}`}
-                </a>
-              );
-            })
-          }
+          {channels.map(({ id, name }) => {
+            const className = `list-group-item list-group-item-action pl-1 ${id === currentChannelId ? 'active' : ''}`;
+            return (
+              <a key={id} className={className} onClick={this.changeChannelHandler(id)} href="">
+                {`# ${name}`}
+              </a>
+            );
+          })}
         </ul>
       </div>
     );
