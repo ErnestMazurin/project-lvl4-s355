@@ -1,11 +1,8 @@
 {
-  "name": "frontend_l4_chat_project",
+  "name": "my-slack",
   "version": "0.0.1",
   "description": "",
   "main": "dist/index.js",
-  "bin": {
-    "hexlet": "dist/bin/hexlet.js"
-  },
   "engines": {
     "node": "9"
   },
@@ -23,10 +20,7 @@
   },
   "author": "Ernest Mazurin",
   "license": "ISC",
-  "bugs": {
-    "url": ""
-  },
-  "homepage": "",
+  "homepage": "https://my-slack-project.herokuapp.com/",
   "dependencies": {
     "@babel/cli": "^7.2.0",
     "@babel/core": "^7.2.2",
@@ -45,6 +39,7 @@
     "debug": "^4.1.0",
     "dotenv": "^6.2.0",
     "faker": "^4.1.0",
+    "gon": "1.0.3",
     "jquery": "^3.3.1",
     "js-cookie": "^2.2.0",
     "koa": "^2.6.2",
@@ -65,8 +60,10 @@
     "redux-actions": "^2.6.4",
     "redux-bootstrap": "^1.3.0",
     "redux-form": "^8.0.4",
+    "redux-logger": "3.0.6",
     "redux-thunk": "^2.3.0",
     "socket.io": "^2.2.0",
+    "socket.io-client": "2.2.0",
     "style-loader": "^0.23.1",
     "webpack": "^4.27.1",
     "webpack-cli": "^3.1.2"

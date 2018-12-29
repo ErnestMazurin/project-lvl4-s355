@@ -1,19 +1,45 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import '../assets/application.css';
 
-import faker from 'faker';
-import gon from 'gon';
-import cookies from 'js-cookie';
-import io from 'socket.io-client';
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware, compose } from 'redux';
+import thunk from 'redux-thunk';
+import io from 'socket.io-client';
 
-import Channels from './components/channels';
-
+import App from './containers/App';
+import reducer from './reducers';
+import * as actions from './actions';
 
 if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
 
-const mountNode = document.getElementById('chat');
-ReactDOM.render(<Channels channels={window.gon.channels}/>, mountNode);
+/** channel = {
+  id -> int
+  name -> string,
+  removable -> boolean,
+}
+ */
+
+/** message = {
+  id -> int,
+  channelId -> int,
+  username -> string,
+  date -> int,
+  content -> string
+}
+ */
+
+const store = createStore(reducer, compose(applyMiddleware(thunk)));
+
+const socket = io();
+socket.on('newMessage', ({ data }) => store.dispatch(actions.addMessage(data)));
+
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById('chat'),
+);
