@@ -1,11 +1,8 @@
 {
-  "name": "frontend_l4_chat_project",
+  "name": "my-slack",
   "version": "0.0.1",
   "description": "",
   "main": "dist/index.js",
-  "bin": {
-    "hexlet": "dist/bin/hexlet.js"
-  },
   "engines": {
     "node": "9"
   },
@@ -23,10 +20,7 @@
   },
   "author": "Ernest Mazurin",
   "license": "ISC",
-  "bugs": {
-    "url": ""
-  },
-  "homepage": "",
+  "homepage": "https://my-slack-project.herokuapp.com/",
   "dependencies": {
     "@babel/cli": "^7.2.0",
     "@babel/core": "^7.2.2",
