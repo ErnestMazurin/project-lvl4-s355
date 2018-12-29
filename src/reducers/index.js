@@ -4,22 +4,13 @@ import { reducer as formReducer } from 'redux-form';
 import * as actions from '../actions';
 import setAndGetUsername from '../setAndGetUsername';
 
-const messagesMock = {
-  1: { id: 1, channelId: 1, author: 'me', date: 'today', content: 'hello!' },
-  2: { id: 2, channelId: 1, author: 'you', date: 'today', content: 'hi! What`s up?' },
-  3: { id: 3, channelId: 1, author: 'me', date: 'today', content: 'wasaaap!!' },
-  4: { id: 4, channelId: 2, author: 'you', date: 'today', content: 'hi!' },
-  5: { id: 5, channelId: 2, author: 'me', date: 'today', content: 'oh, hi!' },
-  6: { id: 6, channelId: 2, author: 'you', date: 'today', content: 'how are you?' },
-};
-
 const newUser = setAndGetUsername();
 
 const initState = {
   currentChannelId: 1,
-  messages: messagesMock,
+  currentUsername: newUser,
+  messages: window.gon.messages,
   channels: window.gon.channels,
-  username: newUser,
   msgRequestStatus: 'success',
 };
 
@@ -34,8 +25,8 @@ const currentChannelId = handleActions({
 const channels = handleActions({
 }, initState.channels);
 
-const username = handleActions({
-}, initState.username);
+const currentUsername = handleActions({
+}, initState.currentUsername);
 
 const msgRequestStatus = handleActions({
   [actions.sendMessageRequest]: () => 'request',
@@ -47,7 +38,7 @@ export default combineReducers({
   currentChannelId,
   messages,
   channels,
-  username,
+  currentUsername,
   msgRequestStatus,
   form: formReducer,
 });

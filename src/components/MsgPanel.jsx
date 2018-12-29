@@ -4,18 +4,17 @@ import { reduxForm, Field } from 'redux-form';
 /** message = {
   id -> int,
   channelId -> int,
-  author -> string,
+  username -> string,
   date -> int,
   content -> string
 }
  */
 
 class MsgPanel extends React.Component {
-  send = ({ content, currentChannelId, username }) => {
+  send = ({ content }) => {
     console.log('start sending message');
-    const { reset, sendMessage } = this.props;
-    console.log(sendMessage);
-    sendMessage(currentChannelId, { content, username });
+    const { currentChannelId, currentUsername, reset, sendMessage } = this.props;
+    sendMessage(currentChannelId, { content, username: currentUsername });
     reset();
   };
 

@@ -5,7 +5,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
-import logger from 'redux-logger';
 import thunk from 'redux-thunk';
 import io from 'socket.io-client';
 
@@ -27,14 +26,13 @@ if (process.env.NODE_ENV !== 'production') {
 /** message = {
   id -> int,
   channelId -> int,
-  author -> string,
+  username -> string,
   date -> int,
   content -> string
 }
  */
 
-
-const store = createStore(reducer, compose(applyMiddleware(logger), applyMiddleware(thunk)));
+const store = createStore(reducer, compose(applyMiddleware(thunk)));
 
 const socket = io();
 socket.on('newMessage', ({ data }) => store.dispatch(actions.addMessage(data)));

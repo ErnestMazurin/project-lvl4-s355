@@ -27,12 +27,12 @@ export const sendMessageSuccess = createAction('TASK_SEND_MESSAGE_SUCCESS');
 export const sendMessage = (channelId, message) => async (dispatch) => {
   dispatch(sendMessageRequest());
   try {
-    const url = `/channel/${channelId}/messages}`;
+    const url = `/api/v1/channels/${channelId}/messages`;
     const request = { data: { attributes: { ...message, date: Date.now() } } };
-    console.log(url);
-    console.log(request);
-    const { data: { id, attributes } } = axios.post(url, request);
-    dispatch(sendMessageSuccess({ id, attributes }));
+    const response = await axios.post(url, request);
+    const { data: { id, attributes } } = response.data;
+    dispatch(addMessage({ id, attributes }));
+    dispatch(sendMessageSuccess());
   } catch (e) {
     console.log(e);
     dispatch(sendMessageFailure());
