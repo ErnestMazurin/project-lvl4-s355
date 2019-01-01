@@ -1,5 +1,9 @@
 import React from 'react';
+import connect from '../connect';
 
+const mapStateToProps = ({ channels, currentChannelId }) => ({ channels, currentChannelId });
+
+@connect(mapStateToProps)
 class Channels extends React.Component {
   changeChannelHandler = id => (event) => {
     event.preventDefault();

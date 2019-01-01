@@ -8,7 +8,7 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
 import io from 'socket.io-client';
 
-import App from './containers/App';
+import App from './components/App';
 import reducer from './reducers';
 import * as actions from './actions';
 

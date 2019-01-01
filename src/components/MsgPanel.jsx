@@ -1,5 +1,7 @@
 import React from 'react';
-import { reduxForm, Field } from 'redux-form';
+import { Field } from 'redux-form';
+import connect from '../connect';
+import reduxForm from '../reduxForm';
 
 /** message = {
   id -> int,
@@ -10,22 +12,27 @@ import { reduxForm, Field } from 'redux-form';
 }
  */
 
+const mapStateToProps = ({ currentChannelId, currentUsername, msgRequestStatus }) =>
+  ({ currentChannelId, currentUsername, msgRequestStatus });
+
+@connect(mapStateToProps)
+@reduxForm({ form: 'newMessageText' })
 class MsgPanel extends React.Component {
   send = ({ content }) => {
-    const { currentChannelId, currentUsername, reset, sendMessage } = this.props;
-    sendMessage(currentChannelId, { content, username: currentUsername });
+    const { currentChannelId, currentUsername } = this.props;
+    const { reset, sendMessage } = this.props;
     reset();
+    return sendMessage(currentChannelId, { content, username: currentUsername });
   };
 
   render() {
-    const { handleSubmit, msgRequestStatus } = this.props;
-    const isDisable = msgRequestStatus === 'request';
+    const { handleSubmit, msgRequestStatus, submitting } = this.props;
     const isFailure = msgRequestStatus === 'failure';
     return (
       <div className="container mb-2">
         <form onSubmit={handleSubmit(this.send)}>
           <div className="input-group">
-            <button type="submit" className="btn btn-success px-4" disabled={isDisable}>Send</button>
+            <button type="submit" className="btn btn-success px-4" disabled={submitting}>Send</button>
             <Field
               name="content"
               required
@@ -43,6 +50,4 @@ class MsgPanel extends React.Component {
   }
 }
 
-export default reduxForm({
-  form: 'newMessageText',
-})(MsgPanel);
+export default MsgPanel;

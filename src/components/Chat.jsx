@@ -1,4 +1,6 @@
 import React from 'react';
+import _ from "lodash";
+import connect from '../connect';
 
 /** message = {
   id -> int,
@@ -8,6 +10,14 @@ import React from 'react';
   content -> string
 }
  */
+
+const mapStateToProps = ({ messages, currentChannelId, currentUsername }) => {
+  const channelMessages = Object.values(messages)
+    .filter(msg => msg.channelId === currentChannelId)
+    .map(msg => ({ ...msg, isYou: (msg.username === currentUsername) }));
+  const sortedMessages = _.reverse(_.sortedUniqBy(channelMessages, ({ date }) => date));
+  return { messages: sortedMessages };
+};
 
 const Message = ({ message: { username, date, content, isYou } }) => {
   const dateObj = new Date(date);
@@ -34,11 +44,16 @@ const Message = ({ message: { username, date, content, isYou } }) => {
   );
 };
 
-
-const Chat = ({ messages }) => (
-  <ul className="list-group list-group-flush">
-    {messages.map(msg => <Message key={msg.id} message={msg} />)}
-  </ul>
-);
+@connect(mapStateToProps)
+class Chat extends React.Component {
+  render() {
+    const { messages } = this.props;
+    return (
+      <ul className="list-group list-group-flush">
+        {messages.map(msg => <Message key={msg.id} message={msg} />)}
+      </ul>
+    );
+  }
+}
 
 export default Chat;

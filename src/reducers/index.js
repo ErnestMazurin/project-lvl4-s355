@@ -30,7 +30,6 @@ const currentUsername = handleActions({
 }, initState.currentUsername);
 
 const msgRequestStatus = handleActions({
-  [actions.sendMessageRequest]: () => 'request',
   [actions.sendMessageSuccess]: () => 'success',
   [actions.sendMessageFailure]: () => 'failure',
 }, initState.msgRequestStatus);
