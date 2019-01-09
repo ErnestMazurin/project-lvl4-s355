@@ -36,6 +36,7 @@ const store = createStore(reducer, compose(applyMiddleware(thunk)));
 
 const socket = io();
 socket.on('newMessage', ({ data }) => store.dispatch(actions.addMessage(data)));
+socket.on('newChannel', ({ data }) => store.dispatch(actions.addChannel(data)));
 
 ReactDOM.render(
   <Provider store={store}>

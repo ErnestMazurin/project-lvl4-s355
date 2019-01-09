@@ -13,6 +13,7 @@ const initState = {
   messages: gon.messages,
   channels: gon.channels,
   msgRequestStatus: 'success',
+  newChannelRequestStatus: 'success',
 };
 
 const messages = handleActions({
@@ -24,6 +25,11 @@ const currentChannelId = handleActions({
 }, initState.currentChannelId);
 
 const channels = handleActions({
+  [actions.addChannel]: (state, { payload: { attributes } }) => {
+    console.log(state);
+    console.log(attributes);
+    return { ...state, ...attributes };
+  },
 }, initState.channels);
 
 const currentUsername = handleActions({
@@ -34,11 +40,17 @@ const msgRequestStatus = handleActions({
   [actions.sendMessageFailure]: () => 'failure',
 }, initState.msgRequestStatus);
 
+const newChannelRequestStatus = handleActions({
+  [actions.sendNewChannelSuccess]: () => 'success',
+  [actions.sendNewChannelFailure]: () => 'failure',
+}, initState.newChannelRequestStatus);
+
 export default combineReducers({
   currentChannelId,
   messages,
   channels,
   currentUsername,
   msgRequestStatus,
+  newChannelRequestStatus,
   form: formReducer,
 });
