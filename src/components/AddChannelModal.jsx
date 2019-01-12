@@ -4,16 +4,12 @@ import { Field } from 'redux-form';
 import connect from '../connect';
 import reduxForm from '../reduxForm';
 
-const mapStateToProps = ({ newChannelRequestStatus }) => ({ newChannelRequestStatus });
-
-@connect(mapStateToProps)
+@connect(({ newChannelRequestStatus }) => ({ newChannelRequestStatus }))
 @reduxForm({ form: 'newChannelName' })
 class AddChannelModal extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      show: false,
-    };
+    this.state = { show: false };
   }
 
   handleShow = (event) => {
@@ -46,20 +42,10 @@ class AddChannelModal extends React.Component {
         <a className="badge badge-secondary ml-1" onClick={this.handleShow} href="">New</a>
         <Modal show={show}>
           <form onSubmit={handleSubmit(this.submit)}>
-            <Modal.Header>
-              <Modal.Title>New channel</Modal.Title>
-            </Modal.Header>
+            <Modal.Header><Modal.Title>New channel</Modal.Title></Modal.Header>
             <Modal.Body>
               <div className="input-group">
-                <Field
-                  name="name"
-                  required
-                  component="input"
-                  type="text"
-                  placeholder="Enter channel name ..."
-                  className="form-control"
-                  autoComplete="off"
-                />
+                <Field name="name" required component="input" type="text" placeholder="Enter channel name ..." className="form-control" autoComplete="off" />
               </div>
               {newChannelRequestStatus === 'failure' ? <div className="alert alert-danger">Network error</div> : null}
             </Modal.Body>
