@@ -12,8 +12,7 @@ import reduxForm from '../reduxForm';
 }
  */
 
-const mapStateToProps = ({ currentChannelId, currentUsername, msgRequestStatus }) =>
-  ({ currentChannelId, currentUsername, msgRequestStatus });
+const mapStateToProps = ({ currentChannelId, currentUsername }) => ({ currentChannelId, currentUsername });
 
 @connect(mapStateToProps)
 @reduxForm({ form: 'newMessageText' })
@@ -26,25 +25,15 @@ class MsgPanel extends React.Component {
   };
 
   render() {
-    const { handleSubmit, msgRequestStatus, submitting } = this.props;
-    const isFailure = msgRequestStatus === 'failure';
+    const { handleSubmit, submitting } = this.props;
     return (
       <div className="container mb-2">
         <form onSubmit={handleSubmit(this.send)}>
           <div className="input-group">
             <button type="submit" className="btn btn-success px-4" disabled={submitting}>Send</button>
-            <Field
-              name="content"
-              required
-              component="input"
-              type="text"
-              placeholder="Enter message ..."
-              className="form-control"
-              autoComplete="off"
-            />
+            <Field name="content" required component="input" type="text" placeholder="Enter message ..." className="form-control" autoComplete="off" />
           </div>
         </form>
-        {isFailure ? <div className="alert alert-danger" role="alert">Send message failure</div> : null}
       </div>
     );
   }

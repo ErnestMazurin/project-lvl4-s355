@@ -23,20 +23,20 @@ class AddChannelModal extends React.Component {
   };
 
   close = () => {
+    const { reset } = this.props;
     this.setState({ show: false });
+    reset();
   };
 
   submit = ({ name }) => {
-    const { sendNewChannel, reset } = this.props;
-    return sendNewChannel(name).then(() => {
-      reset();
-      this.close();
-    });
+    const { sendNewChannel } = this.props;
+    this.close();
+    return sendNewChannel(name);
   };
 
   render() {
     const { show } = this.state;
-    const { handleSubmit, submitting, newChannelRequestStatus } = this.props;
+    const { handleSubmit, submitting } = this.props;
     return (
       <span>
         <a className="badge badge-secondary ml-1" onClick={this.handleShow} href="">New</a>
@@ -47,7 +47,6 @@ class AddChannelModal extends React.Component {
               <div className="input-group">
                 <Field name="name" required component="input" type="text" placeholder="Enter channel name ..." className="form-control" autoComplete="off" />
               </div>
-              {newChannelRequestStatus === 'failure' ? <div className="alert alert-danger">Network error</div> : null}
             </Modal.Body>
             <Modal.Footer>
               <Button onClick={this.handleClose} disabled={submitting}>Close</Button>

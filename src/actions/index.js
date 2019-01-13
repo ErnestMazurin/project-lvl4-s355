@@ -17,6 +17,8 @@ import axios from 'axios';
 }
  */
 
+export const setCurrentUsername = createAction('TASK_SET_CURRENT_USERNAME');
+
 export const changeChannel = createAction('TASK_CHANGE_CHANNEL');
 export const addMessage = createAction('TASK_ADD_MESSAGE', ({ id, attributes }) => ({ [id]: attributes }));
 export const addChannel = createAction('TASK_ADD_CHANNEL', ({ attributes }) => ({ attributes }));
