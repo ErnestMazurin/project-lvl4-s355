@@ -19,9 +19,9 @@ const mapStateToProps = ({ currentChannelId, currentUsername }) => ({ currentCha
 class MsgPanel extends React.Component {
   send = ({ content }) => {
     const { currentChannelId, currentUsername } = this.props;
-    const { reset, sendMessage } = this.props;
+    const { reset, sendNewMessage } = this.props;
     reset();
-    return sendMessage(currentChannelId, { content, username: currentUsername });
+    return sendNewMessage(currentChannelId, { content, username: currentUsername });
   };
 
   render() {

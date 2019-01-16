@@ -35,8 +35,9 @@ if (process.env.NODE_ENV !== 'production') {
 const store = createStore(reducer, compose(applyMiddleware(thunk)));
 
 const socket = io();
-socket.on('newMessage', ({ data }) => store.dispatch(actions.addMessage(data)));
-socket.on('newChannel', ({ data }) => store.dispatch(actions.addChannel(data)));
+socket.on('newMessage', ({ data }) => store.dispatch(actions.newMessage(data)));
+socket.on('newChannel', ({ data }) => store.dispatch(actions.newChannel(data)));
+socket.on('removeChannel', ({ data: id }) => store.dispatch(actions.deleteChannel(id)));
 
 ReactDOM.render(
   <Provider store={store}>

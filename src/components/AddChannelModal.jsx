@@ -1,8 +1,9 @@
 import React from 'react';
-import { Button, Modal } from 'react-bootstrap';
+import { Button, Modal, Badge } from 'react-bootstrap';
 import { Field } from 'redux-form';
 import connect from '../connect';
 import reduxForm from '../reduxForm';
+
 
 @connect(({ newChannelRequestStatus }) => ({ newChannelRequestStatus }))
 @reduxForm({ form: 'newChannelName' })
@@ -39,10 +40,12 @@ class AddChannelModal extends React.Component {
     const { handleSubmit, submitting } = this.props;
     return (
       <span>
-        <a className="badge badge-secondary ml-1" onClick={this.handleShow} href="">New</a>
+        <Badge variant="success" className="ml-1" onClick={this.handleShow}>New</Badge>
         <Modal show={show}>
+          <Modal.Header>
+            <Modal.Title>New channel</Modal.Title>
+          </Modal.Header>
           <form onSubmit={handleSubmit(this.submit)}>
-            <Modal.Header><Modal.Title>New channel</Modal.Title></Modal.Header>
             <Modal.Body>
               <div className="input-group">
                 <Field name="name" required component="input" type="text" placeholder="Enter channel name ..." className="form-control" autoComplete="off" />
@@ -50,7 +53,7 @@ class AddChannelModal extends React.Component {
             </Modal.Body>
             <Modal.Footer>
               <Button onClick={this.handleClose} disabled={submitting}>Close</Button>
-              <Button type="submit" className="primary" disabled={submitting}>Save channel</Button>
+              <Button type="submit" className="success" disabled={submitting}>Save channel</Button>
             </Modal.Footer>
           </form>
         </Modal>

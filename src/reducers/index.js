@@ -1,6 +1,7 @@
 import { handleActions } from 'redux-actions';
 import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
+import _ from 'lodash';
 import * as actions from '../actions';
 
 const initState = {
@@ -10,6 +11,14 @@ const initState = {
   channels: [],
   msgRequestStatus: 'success',
   newChannelRequestStatus: 'success',
+  ui: {
+    deleteModal: {
+      show: false,
+      channelName: undefined,
+      channelId: undefined,
+      isInputValid: true,
+    },
+  },
 };
 
 const currentChannelId = handleActions({
@@ -21,22 +30,52 @@ const currentUsername = handleActions({
 }, initState.currentUsername);
 
 const messages = handleActions({
-  [actions.addMessage]: (state, { payload }) => ({ ...state, ...payload }),
+  [actions.newMessage]: (state, { payload }) => ({ ...state, ...payload }),
+  [actions.deleteChannel]: (state, { payload: { id } }) => _.omitBy(state, msg => msg.channelId === id),
 }, initState.messages);
 
 const channels = handleActions({
-  [actions.addChannel]: (state, { payload: { attributes } }) => [...state, attributes],
+  [actions.newChannel]: (state, { payload: { attributes } }) => [...state, attributes],
+  [actions.deleteChannel]: (state, { payload: { id } }) => state.filter(channel => channel.id !== id),
 }, initState.channels);
 
 const msgRequestStatus = handleActions({
-  [actions.sendMessageSuccess]: () => 'success',
-  [actions.sendMessageFailure]: () => 'failure',
+  [actions.sendNewMessageSuccess]: () => 'success',
+  [actions.sendNewMessageFailure]: () => 'failure',
 }, initState.msgRequestStatus);
 
 const newChannelRequestStatus = handleActions({
   [actions.sendNewChannelSuccess]: () => 'success',
   [actions.sendNewChannelFailure]: () => 'failure',
 }, initState.newChannelRequestStatus);
+
+const ui = handleActions({
+  [actions.showDeleteChannelModal]: (state, { payload: { id, name } }) => ({
+    ...state,
+    deleteModal: {
+      isInputValid: true,
+      show: true,
+      channelName: name,
+      channelId: id,
+    },
+  }),
+  [actions.hideDeleteChannelModal]: state => ({
+    ...state,
+    deleteModal: {
+      isInputValid: true,
+      show: false,
+      channelName: undefined,
+      channelId: undefined,
+    },
+  }),
+  [actions.validateDeleteChannelModal]: (state, { payload: { isInputValid } }) => ({
+    ...state,
+    deleteModal: {
+      ...state.deleteModal,
+      isInputValid,
+    },
+  }),
+}, initState.ui);
 
 export default combineReducers({
   currentChannelId,
@@ -45,5 +84,6 @@ export default combineReducers({
   currentUsername,
   msgRequestStatus,
   newChannelRequestStatus,
+  ui,
   form: formReducer,
 });
