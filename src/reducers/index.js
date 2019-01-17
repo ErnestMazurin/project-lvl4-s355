@@ -12,11 +12,14 @@ const initState = {
   msgRequestStatus: 'success',
   newChannelRequestStatus: 'success',
   ui: {
-    deleteModal: {
+    deleteChannelModal: {
       show: false,
       channelName: undefined,
       channelId: undefined,
       isInputValid: true,
+    },
+    newChannelModal: {
+      show: false,
     },
   },
 };
@@ -52,7 +55,7 @@ const newChannelRequestStatus = handleActions({
 const ui = handleActions({
   [actions.showDeleteChannelModal]: (state, { payload: { id, name } }) => ({
     ...state,
-    deleteModal: {
+    deleteChannelModal: {
       isInputValid: true,
       show: true,
       channelName: name,
@@ -61,7 +64,7 @@ const ui = handleActions({
   }),
   [actions.hideDeleteChannelModal]: state => ({
     ...state,
-    deleteModal: {
+    deleteChannelModal: {
       isInputValid: true,
       show: false,
       channelName: undefined,
@@ -70,11 +73,13 @@ const ui = handleActions({
   }),
   [actions.validateDeleteChannelModal]: (state, { payload: { isInputValid } }) => ({
     ...state,
-    deleteModal: {
-      ...state.deleteModal,
+    deleteChannelModal: {
+      ...state.deleteChannelModal,
       isInputValid,
     },
   }),
+  [actions.showNewChannelModal]: state => ({ ...state, newChannelModal: { show: true } }),
+  [actions.hideNewChannelModal]: state => ({ ...state, newChannelModal: { show: false } }),
 }, initState.ui);
 
 export default combineReducers({

@@ -20,7 +20,6 @@ import axios from 'axios';
 export const setCurrentUsername = createAction('TASK_SET_CURRENT_USERNAME');
 export const changeChannel = createAction('TASK_CHANGE_CHANNEL');
 
-
 export const newMessage = createAction('TASK_NEW_MESSAGE', ({ id, attributes }) => ({ [id]: attributes }));
 export const sendNewMessageFailure = createAction('TASK_SEND_NEW_MESSAGE_FAILURE');
 export const sendNewMessageSuccess = createAction('TASK_SEND_NEW_MESSAGE_SUCCESS');
@@ -36,7 +35,6 @@ export const sendNewMessage = (channelId, message) => async (dispatch) => {
   }
 };
 
-
 export const newChannel = createAction('TASK_NEW_CHANNEL', ({ attributes }) => ({ attributes }));
 export const sendNewChannelFailure = createAction('TASK_SEND_NEW_CHANNEL_FAILURE');
 export const sendNewChannelSuccess = createAction('TASK_SEND_NEW_CHANNEL_SUCCESS');
@@ -51,7 +49,6 @@ export const sendNewChannel = name => async (dispatch) => {
     dispatch(sendNewChannelFailure());
   }
 };
-
 
 export const deleteChannel = createAction('TASK_DELETE_CHANNEL');
 export const deleteChannelFailure = createAction('TASK_DELETE_CHANNEL_FAILURE');
@@ -71,3 +68,6 @@ export const showDeleteChannelModal = createAction('TASK_SHOW_DELETE_CHANNEL_MOD
 export const hideDeleteChannelModal = createAction('TASK_HIDE_DELETE_CHANNEL_MODAL');
 export const validateDeleteChannelModal = createAction('TASK_VALIDATE_DELETE_CHANNEL_MODAL',
   ({ channelName, input }) => ({ isInputValid: channelName === input }));
+
+export const showNewChannelModal = createAction('TASK_SHOW_NEW_CHANNEL_MODAL');
+export const hideNewChannelModal = createAction('TASK_HIDE_NEW_CHANNEL_MODAL');

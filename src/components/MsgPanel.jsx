@@ -27,7 +27,7 @@ class MsgPanel extends React.Component {
   render() {
     const { handleSubmit, submitting } = this.props;
     return (
-      <div className="container mb-2">
+      <div className="container-fluid mb-2 px-0 shadow">
         <form onSubmit={handleSubmit(this.send)}>
           <div className="input-group">
             <button type="submit" className="btn btn-success px-4" disabled={submitting}>Send</button>

@@ -1,32 +1,22 @@
 import React from 'react';
-import { Button, Modal, Badge } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
 import { Field } from 'redux-form';
 import connect from '../connect';
 import reduxForm from '../reduxForm';
 
 
-@connect(({ newChannelRequestStatus }) => ({ newChannelRequestStatus }))
+@connect(({ newChannelRequestStatus, ui: { newChannelModal: { show } } }) => ({ newChannelRequestStatus, show }))
 @reduxForm({ form: 'newChannelName' })
-class AddChannelModal extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { show: false };
-  }
-
-  handleShow = (event) => {
-    event.preventDefault();
-    this.setState({ show: true });
-  };
-
+class NewChannelModal extends React.Component {
   handleClose = (event) => {
     event.preventDefault();
     this.close();
   };
 
   close = () => {
-    const { reset } = this.props;
-    this.setState({ show: false });
+    const { reset, hideNewChannelModal } = this.props;
     reset();
+    hideNewChannelModal();
   };
 
   submit = ({ name }) => {
@@ -36,11 +26,9 @@ class AddChannelModal extends React.Component {
   };
 
   render() {
-    const { show } = this.state;
-    const { handleSubmit, submitting } = this.props;
+    const { handleSubmit, submitting, show } = this.props;
     return (
       <span>
-        <Badge variant="success" className="ml-1" onClick={this.handleShow}>New</Badge>
         <Modal show={show}>
           <Modal.Header>
             <Modal.Title>New channel</Modal.Title>
@@ -62,4 +50,4 @@ class AddChannelModal extends React.Component {
   }
 }
 
-export default AddChannelModal;
+export default NewChannelModal;

@@ -4,7 +4,23 @@ import { Field } from 'redux-form';
 import connect from '../connect';
 import reduxForm from '../reduxForm';
 
-const mapStateToProps = ({ ui: { deleteModal: { show, channelName, channelId, isInputValid } } }) => ({ show, channelName, channelId, isInputValid });
+const mapStateToProps = (
+  {
+    ui: {
+      deleteChannelModal: {
+        show,
+        channelName,
+        channelId,
+        isInputValid,
+      },
+    },
+  },
+) => ({
+  show,
+  channelName,
+  channelId,
+  isInputValid,
+});
 
 @connect(mapStateToProps)
 @reduxForm({ form: 'confirmChannelName' })
@@ -58,14 +74,5 @@ class DeleteChannelModal extends React.Component {
     );
   }
 }
-
-/** channel = {
-  id -> int,
-  name -> string,
-  removable -> boolean,
-}
- */
-
-
 
 export default DeleteChannelModal;
