@@ -35,7 +35,7 @@ export const sendNewMessage = (channelId, message) => async (dispatch) => {
   }
 };
 
-export const newChannel = createAction('TASK_NEW_CHANNEL', ({ attributes }) => ({ attributes }));
+export const newChannel = createAction('TASK_NEW_CHANNEL', ({ id, attributes }) => ({ [id]: attributes }));
 export const sendNewChannelFailure = createAction('TASK_SEND_NEW_CHANNEL_FAILURE');
 export const sendNewChannelSuccess = createAction('TASK_SEND_NEW_CHANNEL_SUCCESS');
 export const sendNewChannel = name => async (dispatch) => {

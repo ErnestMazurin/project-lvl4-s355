@@ -18,7 +18,7 @@ import connect from '../connect';
 }
  */
 
-const mapStateToProps = ({ messages, currentChannelId, currentUsername }) => {
+const mapStateToProps = ({ messages, currentUsername, ui: { currentChannelId } }) => {
   const channelMessages = Object.values(messages)
     .filter(msg => msg.channelId === currentChannelId)
     .map(msg => ({ ...msg, isYou: (msg.username === currentUsername) }));

@@ -12,7 +12,7 @@ import reduxForm from '../reduxForm';
 }
  */
 
-const mapStateToProps = ({ currentChannelId, currentUsername }) => ({ currentChannelId, currentUsername });
+const mapStateToProps = ({ ui: { currentChannelId }, currentUsername }) => ({ currentChannelId, currentUsername });
 
 @connect(mapStateToProps)
 @reduxForm({ form: 'newMessageText' })

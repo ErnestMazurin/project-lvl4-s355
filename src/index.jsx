@@ -20,12 +20,12 @@ if (process.env.NODE_ENV !== 'production') {
   id -> int
   name -> string,
   removable -> boolean,
+  messages -> [ ...msgIds ]
 }
  */
 
 /** message = {
   id -> int,
-  channelId -> int,
   username -> string,
   date -> int,
   content -> string
@@ -37,7 +37,7 @@ const store = createStore(reducer, compose(applyMiddleware(thunk)));
 const socket = io();
 socket.on('newMessage', ({ data }) => store.dispatch(actions.newMessage(data)));
 socket.on('newChannel', ({ data }) => store.dispatch(actions.newChannel(data)));
-socket.on('removeChannel', ({ data: id }) => store.dispatch(actions.deleteChannel(id)));
+socket.on('removeChannel', ({ data }) => store.dispatch(actions.deleteChannel(data)));
 
 ReactDOM.render(
   <Provider store={store}>

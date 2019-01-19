@@ -1,10 +1,11 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
+import _ from 'lodash';
 import connect from '../connect';
 import NewChannelModal from './NewChannelModal';
 import DeleteChannelModal from './DeleteChannelModal';
 
-const mapStateToProps = ({ channels, currentChannelId }) => ({ channels, currentChannelId });
+const mapStateToProps = ({ channels, ui: { currentChannelId } }) => ({ channels: _.values(channels), currentChannelId });
 
 /** channel = {
   id -> int,

@@ -11,18 +11,18 @@ import connect from '../connect';
 
 @connect()
 class App extends React.Component {
-  componentWillMount() {
+  componentDidMount() {
     const { setCurrentUsername, newMessage, newChannel } = this.props;
     const username = setAndGetUsername();
     setCurrentUsername({ username });
 
     const { messages, channels } = gon;
 
-    channels.map(channel => ({ attributes: channel }))
-      .forEach(rec => newChannel(rec));
+    channels.map(channel => ({ id: channel.id, attributes: channel }))
+      .forEach(record => newChannel(record));
 
-    messages.map(msg => ({ id: msg.id, attributes: msg }))
-      .forEach(rec => newMessage(rec));
+    messages.map(message => ({ id: message.id, attributes: message }))
+      .forEach(record => newMessage(record));
   }
 
   render() {
