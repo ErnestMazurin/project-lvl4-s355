@@ -1,6 +1,9 @@
 import React from 'react';
-import { Button } from 'react-bootstrap';
 import _ from 'lodash';
+import { Button } from 'react-bootstrap';
+import { Icon } from 'react-icons-kit';
+import { remove } from 'react-icons-kit/fa/remove';
+import { gear } from 'react-icons-kit/fa/gear';
 import connect from '../connect';
 import NewChannelModal from './NewChannelModal';
 import DeleteChannelModal from './DeleteChannelModal';
@@ -46,10 +49,8 @@ class Channels extends React.Component {
 
   renderButtons = (id, name) => (
     <div className="d-flex justify-content-between">
-      <button onClick={this.onDelete(id, name)} type="button" className="close text-danger" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
-      <button onClick={this.onRename(id)} className="text-warning" type="button">edit</button>
+      <Icon onClick={this.onRename(id)} icon={gear} size={20} className="text-warning" />
+      <Icon onClick={this.onDelete(id, name)} icon={remove} size={20} className="text-danger" />
     </div>
   );
 
@@ -68,7 +69,7 @@ class Channels extends React.Component {
             const divClassName = `list-group-item list-group-item-action d-flex justify-content-between px-2 ${id === currentChannelId ? 'active' : ''}`;
             return (
               <a key={id} className={divClassName} onClick={this.onChangeChannel(id)} href="">
-                {`#${name}`}
+                {`# ${name}`}
                 {removable && this.renderButtons(id, name)}
               </a>
             );
