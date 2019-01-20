@@ -21,7 +21,7 @@ class MsgPanel extends React.Component {
     const { currentChannelId, currentUsername } = this.props;
     const { reset, sendNewMessage } = this.props;
     reset();
-    return sendNewMessage(currentChannelId, { content, username: currentUsername });
+    return sendNewMessage({ content, username: currentUsername, channelId: currentChannelId });
   };
 
   render() {

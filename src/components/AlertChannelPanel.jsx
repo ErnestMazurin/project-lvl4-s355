@@ -6,7 +6,6 @@ const mapStateToProps = ({ newChannelRequestStatus }) => ({ newChannelRequestSta
 
 @connect(mapStateToProps)
 class AlertChatPanel extends React.Component {
-
   render() {
     const { newChannelRequestStatus } = this.props;
     const isAddChannelFailure = newChannelRequestStatus === 'failure';

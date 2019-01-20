@@ -5,12 +5,14 @@ import connect from '../connect';
 import NewChannelModal from './NewChannelModal';
 import DeleteChannelModal from './DeleteChannelModal';
 
-const mapStateToProps = ({ channels, ui: { currentChannelId } }) => ({ channels: _.values(channels), currentChannelId });
+const mapStateToProps = ({ channels: { byId }, ui: { currentChannelId } }) => ({ channels: _.values(byId), currentChannelId });
 
 /** channel = {
   id -> int,
+  channelId -> int,
   name -> string,
   removable -> boolean,
+  messages -> [...msgIds],
 }
  */
 

@@ -1,5 +1,4 @@
 import React from 'react';
-import _ from 'lodash';
 import connect from '../connect';
 
 /** message = {
@@ -15,16 +14,28 @@ import connect from '../connect';
   id -> int,
   name -> string,
   removable -> boolean,
+  messages -> [...msgIds],
 }
  */
 
-const mapStateToProps = ({ messages, currentUsername, ui: { currentChannelId } }) => {
-  const channelMessages = Object.values(messages)
-    .filter(msg => msg.channelId === currentChannelId)
-    .map(msg => ({ ...msg, isYou: (msg.username === currentUsername) }));
+const mapStateToProps = (
+  {
+    messages: { byId, allIds },
+    channels,
+    currentUsername,
+    ui: { currentChannelId },
+  },
+) => {
+  if (!_.has(channels.byId, currentChannelId)) {
+    return { messages: [] };
+  }
 
-  const sortedMessages = _.reverse(_.sortedUniqBy(channelMessages, ({ date }) => date));
-  return { messages: sortedMessages };
+  const currentChannel = channels.byId[currentChannelId];
+  const messagesInChannelIds = currentChannel.messages;
+  const messages = allIds.filter(id => messagesInChannelIds.indexOf(id) !== -1)
+    .map(id => byId[id])
+    .map(msg => ({ ...msg, isYou: msg.username === currentUsername }));
+  return { messages };
 };
 
 const renderDate = date => new Date(date).toLocaleString('ru', {

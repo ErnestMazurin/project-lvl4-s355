@@ -6,11 +6,15 @@ import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
+import logger from 'redux-logger';
 import io from 'socket.io-client';
+import gon from 'gon';
+import _ from 'lodash';
 
 import App from './components/App';
 import reducer from './reducers';
 import * as actions from './actions';
+import setAndGetUsername from './setAndGetUsername';
 
 if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
@@ -26,18 +30,30 @@ if (process.env.NODE_ENV !== 'production') {
 
 /** message = {
   id -> int,
+  channelId -> int,
   username -> string,
   date -> int,
   content -> string
 }
  */
 
-const store = createStore(reducer, compose(applyMiddleware(thunk)));
+const store = createStore(reducer, compose(applyMiddleware(thunk), applyMiddleware(logger)));
 
 const socket = io();
 socket.on('newMessage', ({ data }) => store.dispatch(actions.newMessage(data)));
 socket.on('newChannel', ({ data }) => store.dispatch(actions.newChannel(data)));
 socket.on('removeChannel', ({ data }) => store.dispatch(actions.deleteChannel(data)));
+
+const { messages, channels } = gon;
+const username = setAndGetUsername();
+
+store.dispatch(actions.setCurrentUsername({ username }));
+
+channels.map(channel => ({ id: channel.id, attributes: channel }))
+  .forEach(record => store.dispatch(actions.newChannel(record)));
+
+messages.map(message => ({ id: message.id, attributes: message }))
+  .forEach(record => store.dispatch(actions.newMessage(record)));
 
 ReactDOM.render(
   <Provider store={store}>

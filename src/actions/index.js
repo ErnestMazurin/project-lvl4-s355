@@ -14,18 +14,21 @@ import axios from 'axios';
   id -> int
   name -> string,
   removable -> boolean,
+  messages: [...msgIds],
 }
  */
 
 export const setCurrentUsername = createAction('TASK_SET_CURRENT_USERNAME');
 export const changeChannel = createAction('TASK_CHANGE_CHANNEL');
 
-export const newMessage = createAction('TASK_NEW_MESSAGE', ({ id, attributes }) => ({ [id]: attributes }));
+export const newMessage = createAction('TASK_NEW_MESSAGE');
 export const sendNewMessageFailure = createAction('TASK_SEND_NEW_MESSAGE_FAILURE');
 export const sendNewMessageSuccess = createAction('TASK_SEND_NEW_MESSAGE_SUCCESS');
-export const sendNewMessage = (channelId, message) => async (dispatch) => {
+export const sendNewMessage = message => async (dispatch) => {
   try {
+    const { channelId } = message;
     const url = `/api/v1/channels/${channelId}/messages`;
+    console.log(message);
     const request = { data: { attributes: { ...message, date: Date.now() } } };
     await axios.post(url, request);
     dispatch(sendNewMessageSuccess());
@@ -35,7 +38,8 @@ export const sendNewMessage = (channelId, message) => async (dispatch) => {
   }
 };
 
-export const newChannel = createAction('TASK_NEW_CHANNEL', ({ id, attributes }) => ({ [id]: attributes }));
+export const newChannel = createAction('TASK_NEW_CHANNEL');
+
 export const sendNewChannelFailure = createAction('TASK_SEND_NEW_CHANNEL_FAILURE');
 export const sendNewChannelSuccess = createAction('TASK_SEND_NEW_CHANNEL_SUCCESS');
 export const sendNewChannel = name => async (dispatch) => {
