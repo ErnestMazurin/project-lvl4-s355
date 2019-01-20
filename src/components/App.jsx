@@ -6,9 +6,9 @@ import Chat from './Chat';
 import MsgPanel from './MsgPanel';
 import AlertPanel from './AlertPanel';
 
-const mapStateToProps = ({ msgRequestStatus, newChannelRequestStatus }) => (
+const mapStateToProps = ({ newMessageRequestStatus, newChannelRequestStatus }) => (
   {
-    msgStatus: msgRequestStatus,
+    msgStatus: newMessageRequestStatus,
     channelStatus: newChannelRequestStatus,
   });
 
