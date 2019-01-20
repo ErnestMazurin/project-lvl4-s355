@@ -1,9 +1,13 @@
 import { combineReducers } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 import ui from './ui';
-import { newMessageRequestStatus, newChannelRequestStatus, deleteChannelRequestStatus } from './requests';
 import { messages, channels, currentUsername } from './domain';
-
+import {
+  newMessageRequestStatus,
+  newChannelRequestStatus,
+  deleteChannelRequestStatus,
+  renameChannelRequestStatus,
+} from './requests';
 
 export default combineReducers({
   messages,
@@ -12,6 +16,7 @@ export default combineReducers({
   newMessageRequestStatus,
   newChannelRequestStatus,
   deleteChannelRequestStatus,
+  renameChannelRequestStatus,
   ui,
   form: formReducer,
 });

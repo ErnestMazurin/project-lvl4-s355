@@ -66,4 +66,12 @@ export const channels = handleActions({
       allIds: allIds.filter(index => index !== id),
     }),
 
+  [actions.renameChannel]: ({ byId, allIds }, { payload: { id, attributes: { name } } }) => {
+    const newChannel = { ...byId[id], name };
+    return {
+      byId: { ...byId, [id]: newChannel },
+      allIds,
+    };
+  },
+
 }, initState.channels);

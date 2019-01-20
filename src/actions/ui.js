@@ -11,3 +11,7 @@ export const validateDeleteChannelModal = createAction('TASK_VALIDATE_DELETE_CHA
 
 export const showNewChannelModal = createAction('TASK_SHOW_NEW_CHANNEL_MODAL');
 export const hideNewChannelModal = createAction('TASK_HIDE_NEW_CHANNEL_MODAL');
+
+
+export const showRenameChannelModal = createAction('TASK_SHOW_RENAME_CHANNEL_MODAL');
+export const hideRenameChannelModal = createAction('TASK_HIDE_RENAME_CHANNEL_MODAL');

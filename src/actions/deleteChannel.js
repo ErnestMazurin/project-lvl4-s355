@@ -1,14 +1,6 @@
 import axios from 'axios/index';
 import { createAction } from 'redux-actions';
 
-/** channel = {
-  id -> int
-  name -> string,
-  removable -> boolean,
-  messages: [...msgIds],
-}
- */
-
 export const deleteChannel = createAction('TASK_DELETE_CHANNEL');
 export const deleteChannelFailure = createAction('TASK_DELETE_CHANNEL_FAILURE');
 export const deleteChannelSuccess = createAction('TASK_DELETE_CHANNEL_SUCCESS');

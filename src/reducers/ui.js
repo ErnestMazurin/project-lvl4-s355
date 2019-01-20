@@ -12,10 +12,15 @@ const initState = {
   newChannelModal: {
     show: false,
   },
+  renameChannelModal: {
+    show: false,
+    channelId: undefined,
+  },
 };
 
 export default handleActions({
   [actions.changeChannel]: (state, { payload: { id } }) => ({ ...state, currentChannelId: id }),
+
   [actions.showDeleteChannelModal]: (state, { payload: { id, name } }) => ({
     ...state,
     deleteChannelModal: {
@@ -25,6 +30,7 @@ export default handleActions({
       channelId: id,
     },
   }),
+
   [actions.hideDeleteChannelModal]: state => ({
     ...state,
     deleteChannelModal: {
@@ -34,6 +40,7 @@ export default handleActions({
       channelId: undefined,
     },
   }),
+
   [actions.validateDeleteChannelModal]: (state, { payload: { isInputValid } }) => ({
     ...state,
     deleteChannelModal: {
@@ -41,6 +48,18 @@ export default handleActions({
       isInputValid,
     },
   }),
+
   [actions.showNewChannelModal]: state => ({ ...state, newChannelModal: { show: true } }),
   [actions.hideNewChannelModal]: state => ({ ...state, newChannelModal: { show: false } }),
+
+  [actions.showRenameChannelModal]: (state, { payload: { id } }) => ({
+    ...state,
+    renameChannelModal: {
+      show: true,
+      channelId: id,
+    },
+  }),
+
+  [actions.hideRenameChannelModal]: state => ({ ...state, renameChannelModal: { ...state.renameChannelModal, show: false } }),
+
 }, initState);

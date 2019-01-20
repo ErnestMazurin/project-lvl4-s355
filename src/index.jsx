@@ -9,7 +9,6 @@ import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 import io from 'socket.io-client';
 import gon from 'gon';
-import _ from 'lodash';
 
 import App from './components/App';
 import reducer from './reducers';
@@ -43,11 +42,12 @@ const socket = io();
 socket.on('newMessage', ({ data }) => store.dispatch(actions.newMessage(data)));
 socket.on('newChannel', ({ data }) => store.dispatch(actions.newChannel(data)));
 socket.on('removeChannel', ({ data }) => store.dispatch(actions.deleteChannel(data)));
+socket.on('renameChannel', ({ data }) => store.dispatch(actions.renameChannel(data)));
+
+const username = setAndGetUsername();
+store.dispatch(actions.setCurrentUsername({ username }));
 
 const { messages, channels } = gon;
-const username = setAndGetUsername();
-
-store.dispatch(actions.setCurrentUsername({ username }));
 
 channels.map(channel => ({ id: channel.id, attributes: channel }))
   .forEach(record => store.dispatch(actions.newChannel(record)));
