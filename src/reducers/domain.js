@@ -14,8 +14,6 @@ const initState = {
   },
 };
 
-const sortByDate = messages => _.reverse(_.sortedUniqBy(messages, msg => msg.date));
-
 export const currentUsername = handleActions({
   [actions.setCurrentUsername]: (state, { payload: { username } }) => username,
 }, initState.currentUsername);
@@ -23,19 +21,16 @@ export const currentUsername = handleActions({
 
 export const messages = handleActions({
 
-  [actions.newMessage]: ({ byId }, { payload: { id, attributes } }) => {
-    const newMessages = { ...byId, [id]: attributes };
-    return {
-      byId: newMessages,
-      allIds: sortByDate(_.values(newMessages)).map(msg => msg.id),
-    };
-  },
+  [actions.newMessage]: ({ byId, allIds }, { payload: { id, attributes } }) => ({
+    byId: { ...byId, [id]: attributes },
+    allIds: [id, ...allIds],
+  }),
 
-  [actions.deleteChannel]: ({ byId }, { payload: { id } }) => {
+  [actions.deleteChannel]: ({ byId, allIds }, { payload: { id } }) => {
     const newMessages = _.omitBy(byId, msg => msg.channelId === id);
     return {
       byId: newMessages,
-      allIds: sortByDate(_.values(newMessages)).map(msg => msg.id),
+      allIds: _.without(allIds, _.keys(newMessages)),
     };
   },
 

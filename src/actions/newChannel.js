@@ -1,5 +1,6 @@
 import axios from 'axios/index';
 import { createAction } from 'redux-actions';
+import { newChannelRoute } from '../routes';
 
 /** channel = {
   id -> int
@@ -14,12 +15,11 @@ export const newChannelFailure = createAction('TASK_SEND_NEW_CHANNEL_FAILURE');
 export const newChannelSuccess = createAction('TASK_SEND_NEW_CHANNEL_SUCCESS');
 export const sendNewChannel = name => async (dispatch) => {
   try {
-    const url = '/api/v1/channels';
-    const request = { data: { attributes: { name } } };
-    await axios.post(url, request);
+    await axios.post(newChannelRoute(), { data: { attributes: { name } } });
     dispatch(newChannelSuccess());
   } catch (e) {
     console.log(e);
     dispatch(newChannelFailure());
+    throw e;
   }
 };

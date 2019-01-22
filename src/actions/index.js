@@ -39,7 +39,6 @@ export const {
   changeChannel,
   showDeleteChannelModal,
   hideDeleteChannelModal,
-  validateDeleteChannelModal,
   showNewChannelModal,
   hideNewChannelModal,
   showRenameChannelModal,

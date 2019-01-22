@@ -1,25 +1,25 @@
 import React from 'react';
 import { Button, Modal, Alert } from 'react-bootstrap';
-import { Field } from 'redux-form';
+import { Field, reduxForm, SubmissionError } from 'redux-form';
 import connect from '../connect';
-import reduxForm from '../reduxForm';
+import AlertPanel from './AlertPanel';
 
 const mapStateToProps = (
   {
+    requestStatus,
     ui: {
       deleteChannelModal: {
         show,
         channelName,
         channelId,
-        isInputValid,
       },
     },
   },
 ) => ({
+  status: requestStatus,
   show,
   channelName,
   channelId,
-  isInputValid,
 });
 
 @connect(mapStateToProps)
@@ -30,15 +30,15 @@ class DeleteChannelModal extends React.Component {
     this.close();
   };
 
-  submit = ({ name }) => {
-    const { channelName, channelId } = this.props;
-    const { sendDeleteChannel, validateDeleteChannelModal } = this.props;
-    const { payload: { isInputValid } } = validateDeleteChannelModal({ channelName, input: name });
-    if (isInputValid) {
-      this.close();
-      return sendDeleteChannel(channelId);
+  submit = async ({ name }) => {
+    const { channelName, channelId, sendDeleteChannel } = this.props;
+
+    if (name !== channelName) {
+      throw new SubmissionError({ _error: 'validation error' });
     }
-    return null;
+
+    await sendDeleteChannel(channelId);
+    this.close();
   };
 
   close = () => {
@@ -48,7 +48,13 @@ class DeleteChannelModal extends React.Component {
   };
 
   render() {
-    const { handleSubmit, submitting, show, isInputValid } = this.props;
+    const {
+      handleSubmit,
+      submitting,
+      show,
+      status,
+      error
+    } = this.props;
     return (
       <Modal show={show}>
         <Modal.Header>
@@ -63,7 +69,8 @@ class DeleteChannelModal extends React.Component {
               </p>
               <Field name="name" required component="input" type="text" placeholder="Enter channel name ..." className="form-control" autoComplete="off" />
             </div>
-            {!isInputValid && <Alert variant="warning">Wrong channel name</Alert>}
+            {error && <Alert variant="warning">Wrong channel name</Alert>}
+            <AlertPanel requestStatus={status} type="DELETE_CHANNEL">Error while deleting channel</AlertPanel>
           </Modal.Body>
           <Modal.Footer>
             <Button onClick={this.handleClose} disabled={submitting}>Close</Button>

@@ -2,30 +2,22 @@ import { handleActions } from 'redux-actions';
 import * as actions from '../actions';
 
 const initState = {
-  msgRequestStatus: 'success',
-  newChannelRequestStatus: 'success',
-  deleteChannelRequestStatus: 'success',
-  renameChannelRequestStatus: 'success',
+  requestStatus: {
+    windowType: '',
+    status: 'success',
+  },
 };
 
-export const newMessageRequestStatus = handleActions({
-  [actions.newMessageSuccess]: () => 'success',
-  [actions.newMessageFailure]: () => 'failure',
-}, initState.msgRequestStatus);
+export default handleActions({
+  [actions.newMessageSuccess]: () => ({ windowType: 'NEW_MESSAGE', status: 'success' }),
+  [actions.newMessageFailure]: () => ({ windowType: 'NEW_MESSAGE', status: 'failure' }),
 
+  [actions.newChannelSuccess]: () => ({ windowType: 'NEW_CHANNEL', status: 'success' }),
+  [actions.newChannelFailure]: () => ({ windowType: 'NEW_CHANNEL', status: 'failure' }),
 
-export const newChannelRequestStatus = handleActions({
-  [actions.newChannelSuccess]: () => 'success',
-  [actions.newChannelFailure]: () => 'failure',
-}, initState.newChannelRequestStatus);
+  [actions.deleteChannelSuccess]: () => ({ windowType: 'DELETE_CHANNEL', status: 'success' }),
+  [actions.deleteChannelFailure]: () => ({ windowType: 'DELETE_CHANNEL', status: 'failure' }),
 
-
-export const deleteChannelRequestStatus = handleActions({
-  [actions.deleteChannelSuccess]: () => 'success',
-  [actions.deleteChannelFailure]: () => 'failure',
-}, initState.deleteChannelRequestStatus);
-
-export const renameChannelRequestStatus = handleActions({
-  [actions.renameChannelSuccess]: () => 'success',
-  [actions.renameChannelFailure]: () => 'failure',
-}, initState.renameChannelRequestStatus);
+  [actions.renameChannelSuccess]: () => ({ windowType: 'RENAME_CHANNEL', status: 'success' }),
+  [actions.renameChannelFailure]: () => ({ windowType: 'RENAME_CHANNEL', status: 'failure' }),
+}, initState.requestStatus);

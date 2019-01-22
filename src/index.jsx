@@ -9,6 +9,7 @@ import thunk from 'redux-thunk';
 import logger from 'redux-logger';
 import io from 'socket.io-client';
 import gon from 'gon';
+import _ from 'lodash';
 
 import App from './components/App';
 import reducer from './reducers';
@@ -52,7 +53,8 @@ const { messages, channels } = gon;
 channels.map(channel => ({ id: channel.id, attributes: channel }))
   .forEach(record => store.dispatch(actions.newChannel(record)));
 
-messages.map(message => ({ id: message.id, attributes: message }))
+const sortedMessages = _.sortedUniqBy(messages, ({ date }) => date);
+sortedMessages.map(message => ({ id: message.id, attributes: message }))
   .forEach(record => store.dispatch(actions.newMessage(record)));
 
 ReactDOM.render(

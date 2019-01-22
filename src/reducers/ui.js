@@ -7,7 +7,6 @@ const initState = {
     show: false,
     channelName: undefined,
     channelId: undefined,
-    isInputValid: true,
   },
   newChannelModal: {
     show: false,
@@ -38,14 +37,6 @@ export default handleActions({
       show: false,
       channelName: undefined,
       channelId: undefined,
-    },
-  }),
-
-  [actions.validateDeleteChannelModal]: (state, { payload: { isInputValid } }) => ({
-    ...state,
-    deleteChannelModal: {
-      ...state.deleteChannelModal,
-      isInputValid,
     },
   }),
 

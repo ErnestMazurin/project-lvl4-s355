@@ -1,7 +1,7 @@
 import React from 'react';
-import { Field } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
 import connect from '../connect';
-import reduxForm from '../reduxForm';
+import AlertPanel from './AlertPanel';
 
 /** message = {
   id -> int,
@@ -12,20 +12,25 @@ import reduxForm from '../reduxForm';
 }
  */
 
-const mapStateToProps = ({ ui: { currentChannelId }, currentUsername }) => ({ currentChannelId, currentUsername });
+const mapStateToProps = ({ ui: { currentChannelId }, currentUsername, requestStatus }) => ({ currentChannelId, currentUsername, status: requestStatus });
 
 @connect(mapStateToProps)
 @reduxForm({ form: 'newMessageText' })
 class MsgPanel extends React.Component {
-  send = ({ content }) => {
-    const { currentChannelId, currentUsername } = this.props;
-    const { reset, sendNewMessage } = this.props;
+  send = async ({ content }) => {
+    const {
+      currentChannelId,
+      currentUsername,
+      reset,
+      sendNewMessage,
+    } = this.props;
+
+    await sendNewMessage({ content, username: currentUsername, channelId: currentChannelId });
     reset();
-    return sendNewMessage({ content, username: currentUsername, channelId: currentChannelId });
   };
 
   render() {
-    const { handleSubmit, submitting } = this.props;
+    const { handleSubmit, submitting, status } = this.props;
     return (
       <div className="container-fluid mb-2 px-0 shadow">
         <form onSubmit={handleSubmit(this.send)}>
@@ -34,6 +39,7 @@ class MsgPanel extends React.Component {
             <Field name="content" required component="input" type="text" placeholder="Enter message ..." className="form-control" autoComplete="off" />
           </div>
         </form>
+        <AlertPanel requestStatus={status} type="NEW_MESSAGE">Error while sending message</AlertPanel>
       </div>
     );
   }

@@ -1,12 +1,12 @@
 import React from 'react';
 import { Button, Modal } from 'react-bootstrap';
-import { Field } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
 import connect from '../connect';
-import reduxForm from '../reduxForm';
-
+import AlertPanel from './AlertPanel';
 
 const mapStateToProps = (
   {
+    requestStatus,
     ui: {
       renameChannelModal: {
         show,
@@ -15,6 +15,7 @@ const mapStateToProps = (
     },
   },
 ) => ({
+  status: requestStatus,
   show,
   channelId,
 });
@@ -27,10 +28,10 @@ class RenameChannelModal extends React.Component {
     this.close();
   };
 
-  submit = ({ name }) => {
+  submit = async ({ name }) => {
     const { sendRenameChannel, channelId } = this.props;
+    await sendRenameChannel(channelId, name);
     this.close();
-    return sendRenameChannel(channelId, name);
   };
 
   close = () => {
@@ -40,7 +41,12 @@ class RenameChannelModal extends React.Component {
   };
 
   render() {
-    const { handleSubmit, submitting, show } = this.props;
+    const {
+      handleSubmit,
+      submitting,
+      show,
+      status,
+    } = this.props;
     return (
       <Modal show={show}>
         <Modal.Header>
@@ -51,6 +57,7 @@ class RenameChannelModal extends React.Component {
             <div className="input-group">
               <Field name="name" required component="input" type="text" placeholder="Enter new channel`s name ..." className="form-control" autoComplete="off" />
             </div>
+            <AlertPanel requestStatus={status} type="RENAME_CHANNEL">Error while renaming channel</AlertPanel>
           </Modal.Body>
           <Modal.Footer>
             <Button onClick={this.handleClose} disabled={submitting}>Close</Button>

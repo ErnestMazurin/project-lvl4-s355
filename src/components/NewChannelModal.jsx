@@ -1,11 +1,10 @@
 import React from 'react';
 import { Button, Modal } from 'react-bootstrap';
-import { Field } from 'redux-form';
+import { Field, reduxForm } from 'redux-form';
 import connect from '../connect';
-import reduxForm from '../reduxForm';
+import AlertPanel from './AlertPanel';
 
-
-@connect(({ newChannelRequestStatus, ui: { newChannelModal: { show } } }) => ({ newChannelRequestStatus, show }))
+@connect(({ ui: { newChannelModal: { show } }, requestStatus }) => ({ show, status: requestStatus }))
 @reduxForm({ form: 'newChannelName' })
 class NewChannelModal extends React.Component {
   handleClose = (event) => {
@@ -19,14 +18,20 @@ class NewChannelModal extends React.Component {
     hideNewChannelModal();
   };
 
-  submit = ({ name }) => {
+  submit = async ({ name }) => {
     const { sendNewChannel } = this.props;
+    await sendNewChannel(name);
     this.close();
-    return sendNewChannel(name);
   };
 
   render() {
-    const { handleSubmit, submitting, show } = this.props;
+    const {
+      handleSubmit,
+      submitting,
+      show,
+      status,
+    } = this.props;
+
     return (
       <span>
         <Modal show={show}>
@@ -38,6 +43,7 @@ class NewChannelModal extends React.Component {
               <div className="input-group">
                 <Field name="name" required component="input" type="text" placeholder="Enter channel name ..." className="form-control" autoComplete="off" />
               </div>
+              <AlertPanel requestStatus={status} type="NEW_CHANNEL">Error while adding new channel</AlertPanel>
             </Modal.Body>
             <Modal.Footer>
               <Button onClick={this.handleClose} disabled={submitting}>Close</Button>
