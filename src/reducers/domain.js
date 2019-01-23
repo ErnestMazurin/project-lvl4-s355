@@ -30,7 +30,7 @@ export const messages = handleActions({
     const newMessages = _.omitBy(byId, msg => msg.channelId === id);
     return {
       byId: newMessages,
-      allIds: _.without(allIds, _.keys(newMessages)),
+      allIds: allIds.filter(identifier => _.has(newMessages, identifier)),
     };
   },
 
