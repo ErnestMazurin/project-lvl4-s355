@@ -1,9 +1,13 @@
 const root = '/api/v1';
 
-export const newMessageRoute = channelId => `${root}/channels/${channelId}/messages`;
+const newMessage = channelId => `${root}/channels/${channelId}/messages`;
+const newChannel = () => `${root}/channels`;
+const renameChannel = id => `${root}/channels/${id}`;
+const deleteChannel = id => `${root}/channels/${id}`;
 
-export const newChannelRoute = () => `${root}/channels`;
-
-export const renameChannelRoute = id => `${root}/channels/${id}`;
-
-export const deleteChannelRoute = id => `${root}/channels/${id}`;
+export default {
+  newMessage,
+  newChannel,
+  renameChannel,
+  deleteChannel,
+};

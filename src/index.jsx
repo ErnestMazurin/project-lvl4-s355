@@ -15,6 +15,7 @@ import App from './components/App';
 import reducer from './reducers';
 import * as actions from './actions';
 import setAndGetUsername from './setAndGetUsername';
+import UsernameContext from './UsernameContext';
 
 if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
@@ -45,9 +46,6 @@ socket.on('newChannel', ({ data }) => store.dispatch(actions.newChannel(data)));
 socket.on('removeChannel', ({ data }) => store.dispatch(actions.deleteChannel(data)));
 socket.on('renameChannel', ({ data }) => store.dispatch(actions.renameChannel(data)));
 
-const username = setAndGetUsername();
-store.dispatch(actions.setCurrentUsername({ username }));
-
 const { messages, channels } = gon;
 
 channels.map(channel => ({ id: channel.id, attributes: channel }))
@@ -57,9 +55,13 @@ const sortedMessages = _.sortedUniqBy(messages, ({ date }) => date);
 sortedMessages.map(message => ({ id: message.id, attributes: message }))
   .forEach(record => store.dispatch(actions.newMessage(record)));
 
+const username = setAndGetUsername();
+
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <UsernameContext.Provider value={username}>
+      <App />
+    </UsernameContext.Provider>
   </Provider>,
   document.getElementById('chat'),
 );

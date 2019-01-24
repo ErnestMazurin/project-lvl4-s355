@@ -3,7 +3,6 @@ import _ from 'lodash';
 import * as actions from '../actions';
 
 const initState = {
-  currentUsername: '',
   messages: {
     byId: {},
     allIds: [],
@@ -14,13 +13,7 @@ const initState = {
   },
 };
 
-export const currentUsername = handleActions({
-  [actions.setCurrentUsername]: (state, { payload: { username } }) => username,
-}, initState.currentUsername);
-
-
 export const messages = handleActions({
-
   [actions.newMessage]: ({ byId, allIds }, { payload: { id, attributes } }) => ({
     byId: { ...byId, [id]: attributes },
     allIds: [id, ...allIds],
@@ -38,7 +31,6 @@ export const messages = handleActions({
 
 
 export const channels = handleActions({
-
   [actions.newMessage]: ({ byId, allIds }, { payload: { id, attributes } }) => {
     const { channelId } = attributes;
     const channel = byId[channelId];

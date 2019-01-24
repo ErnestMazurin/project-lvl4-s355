@@ -1,5 +1,6 @@
 import React from 'react';
 import connect from '../connect';
+import UsernameContext from '../UsernameContext';
 
 /** message = {
   id -> int,
@@ -22,7 +23,6 @@ const mapStateToProps = (
   {
     messages: { byId, allIds },
     channels,
-    currentUsername,
     ui: { currentChannelId },
   },
 ) => {
@@ -34,7 +34,8 @@ const mapStateToProps = (
   const messagesInChannelIds = currentChannel.messages;
   const messages = allIds.filter(id => messagesInChannelIds.indexOf(id) !== -1)
     .map(id => byId[id])
-    .map(msg => ({ ...msg, isYou: msg.username === currentUsername }));
+    .map(msg => ({ ...msg, isYou: false }));
+
   return { messages };
 };
 
@@ -47,14 +48,18 @@ const renderDate = date => new Date(date).toLocaleString('ru', {
   day: 'numeric',
 });
 
-const Message = ({ message: { username, date, content, isYou } }) => (
+const Message = ({ message: { username, date, content } }) => (
   <li className="list-group-item">
     <div className="container">
-      <div className="row">
-        <div className="text-body pl-0">{username}</div>
-        {isYou ? <div className="text-success ml-2">(you)</div> : null}
-        <div className="text-secondary pl-3">{renderDate(date)}</div>
-      </div>
+      <UsernameContext.Consumer>
+        {current => (
+          <div className="row">
+            <div className="text-body pl-0">{username}</div>
+            {current === username && <div className="text-success ml-2">(you)</div>}
+            <div className="text-secondary pl-3">{renderDate(date)}</div>
+          </div>
+        )}
+      </UsernameContext.Consumer>
       <div className="row text-dark pt-2">{content}</div>
     </div>
   </li>

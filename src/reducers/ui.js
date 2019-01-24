@@ -5,15 +5,15 @@ const initState = {
   currentChannelId: 1,
   deleteChannelModal: {
     show: false,
-    channelName: undefined,
-    channelId: undefined,
+    channelName: '',
+    channelId: -1,
   },
   newChannelModal: {
     show: false,
   },
   renameChannelModal: {
     show: false,
-    channelId: undefined,
+    channelId: -1,
   },
 };
 
