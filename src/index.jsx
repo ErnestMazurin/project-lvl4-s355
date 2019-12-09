@@ -17,6 +17,8 @@ import * as actions from './actions';
 import setAndGetUsername from './setAndGetUsername';
 import UsernameContext from './UsernameContext';
 
+import 'regenerator-runtime/runtime';
+
 if (process.env.NODE_ENV !== 'production') {
   localStorage.debug = 'chat:*';
 }
@@ -48,12 +50,12 @@ socket.on('renameChannel', ({ data }) => store.dispatch(actions.renameChannel(da
 
 const { messages, channels } = gon;
 
-channels.map(channel => ({ id: channel.id, attributes: channel }))
-  .forEach(record => store.dispatch(actions.newChannel(record)));
+channels.map((channel) => ({ id: channel.id, attributes: channel }))
+  .forEach((record) => store.dispatch(actions.newChannel(record)));
 
 const sortedMessages = _.sortedUniqBy(messages, ({ date }) => date);
-sortedMessages.map(message => ({ id: message.id, attributes: message }))
-  .forEach(record => store.dispatch(actions.newMessage(record)));
+sortedMessages.map((message) => ({ id: message.id, attributes: message }))
+  .forEach((record) => store.dispatch(actions.newMessage(record)));
 
 const username = setAndGetUsername();
 

@@ -45,8 +45,8 @@ export default (router, io) => {
     })
     .delete('/channels/:id', (ctx) => {
       const channelId = Number(ctx.params.id);
-      state.channels = state.channels.filter(c => c.id !== channelId);
-      state.messages = state.messages.filter(m => m.channelId !== channelId);
+      state.channels = state.channels.filter((c) => c.id !== channelId);
+      state.messages = state.messages.filter((m) => m.channelId !== channelId);
       ctx.status = 204;
       const data = {
         data: {
@@ -58,7 +58,7 @@ export default (router, io) => {
     })
     .patch('/channels/:id', (ctx) => {
       const channelId = Number(ctx.params.id);
-      const channel = state.channels.find(c => c.id === channelId);
+      const channel = state.channels.find((c) => c.id === channelId);
 
       const { attributes } = ctx.request.body.data;
       channel.name = attributes.name;
@@ -73,8 +73,8 @@ export default (router, io) => {
       io.emit('renameChannel', data);
     })
     .get('/channels/:channelId/messages', (ctx) => {
-      const messages = state.messages.filter(m => m.channelId === ctx.params.channelId);
-      const resources = messages.map(m => ({
+      const messages = state.messages.filter((m) => m.channelId === ctx.params.channelId);
+      const resources = messages.map((m) => ({
         type: 'channels',
         id: m.id,
         attributes: m,

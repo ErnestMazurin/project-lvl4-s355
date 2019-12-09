@@ -5,7 +5,7 @@ import routes from '../routes';
 export const newChannel = createAction('TASK_NEW_CHANNEL');
 export const newChannelFailure = createAction('TASK_SEND_NEW_CHANNEL_FAILURE');
 export const newChannelSuccess = createAction('TASK_SEND_NEW_CHANNEL_SUCCESS');
-export const sendNewChannel = name => async (dispatch) => {
+export const sendNewChannel = (name) => async (dispatch) => {
   try {
     await axios.post(routes.newChannel(), { data: { attributes: { name } } });
     dispatch(newChannelSuccess());
@@ -33,7 +33,7 @@ export const sendRenameChannel = (id, name) => async (dispatch) => {
 export const deleteChannel = createAction('TASK_DELETE_CHANNEL');
 export const deleteChannelFailure = createAction('TASK_DELETE_CHANNEL_FAILURE');
 export const deleteChannelSuccess = createAction('TASK_DELETE_CHANNEL_SUCCESS');
-export const sendDeleteChannel = id => async (dispatch) => {
+export const sendDeleteChannel = (id) => async (dispatch) => {
   try {
     await axios.delete(routes.deleteChannel(id));
     dispatch(deleteChannelSuccess());
@@ -47,7 +47,7 @@ export const sendDeleteChannel = id => async (dispatch) => {
 export const newMessage = createAction('TASK_NEW_MESSAGE');
 export const newMessageFailure = createAction('TASK_SEND_NEW_MESSAGE_FAILURE');
 export const newMessageSuccess = createAction('TASK_SEND_NEW_MESSAGE_SUCCESS');
-export const sendNewMessage = message => async (dispatch) => {
+export const sendNewMessage = (message) => async (dispatch) => {
   try {
     const { channelId } = message;
     const request = { data: { attributes: { ...message, date: Date.now() } } };
