@@ -30,7 +30,7 @@ export default handleActions({
     },
   }),
 
-  [actions.hideDeleteChannelModal]: state => ({
+  [actions.hideDeleteChannelModal]: (state) => ({
     ...state,
     deleteChannelModal: {
       isInputValid: true,
@@ -40,8 +40,8 @@ export default handleActions({
     },
   }),
 
-  [actions.showNewChannelModal]: state => ({ ...state, newChannelModal: { show: true } }),
-  [actions.hideNewChannelModal]: state => ({ ...state, newChannelModal: { show: false } }),
+  [actions.showNewChannelModal]: (state) => ({ ...state, newChannelModal: { show: true } }),
+  [actions.hideNewChannelModal]: (state) => ({ ...state, newChannelModal: { show: false } }),
 
   [actions.showRenameChannelModal]: (state, { payload: { id } }) => ({
     ...state,
@@ -51,6 +51,6 @@ export default handleActions({
     },
   }),
 
-  [actions.hideRenameChannelModal]: state => ({ ...state, renameChannelModal: { ...state.renameChannelModal, show: false } }),
+  [actions.hideRenameChannelModal]: (state) => ({ ...state, renameChannelModal: { ...state.renameChannelModal, show: false } }),
 
 }, initState);

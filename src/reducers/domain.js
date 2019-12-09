@@ -20,10 +20,10 @@ export const messages = handleActions({
   }),
 
   [actions.deleteChannel]: ({ byId, allIds }, { payload: { id } }) => {
-    const newMessages = _.omitBy(byId, msg => msg.channelId === id);
+    const newMessages = _.omitBy(byId, (msg) => msg.channelId === id);
     return {
       byId: newMessages,
-      allIds: allIds.filter(identifier => _.has(newMessages, identifier)),
+      allIds: allIds.filter((identifier) => _.has(newMessages, identifier)),
     };
   },
 
@@ -50,7 +50,7 @@ export const channels = handleActions({
   [actions.deleteChannel]: ({ byId, allIds }, { payload: { id } }) => (
     {
       byId: _.omit(byId, id),
-      allIds: allIds.filter(index => index !== id),
+      allIds: allIds.filter((index) => index !== id),
     }),
 
   [actions.renameChannel]: ({ byId, allIds }, { payload: { id, attributes: { name } } }) => {
