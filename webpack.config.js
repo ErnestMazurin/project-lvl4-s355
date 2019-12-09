@@ -1,8 +1,6 @@
 module.exports = {
   mode: process.env.NODE_ENV || 'development',
-  entry: [
-    'babel-polyfill', `${__dirname}/src/index.jsx`,
-  ],
+  entry: [`${__dirname}/src/index.jsx`],
   externals: {
     gon: 'gon',
   },
