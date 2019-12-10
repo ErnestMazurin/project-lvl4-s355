@@ -1,6 +1,6 @@
 {
   "name": "my-slack",
-  "version": "0.0.1",
+  "version": "0.2.0",
   "description": "",
   "main": "dist/index.js",
   "engines": {
