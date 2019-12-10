@@ -1,5 +1,3 @@
-// @flow
-
 import path from 'path';
 import Koa from 'koa';
 import Pug from 'koa-pug';
@@ -44,11 +42,8 @@ export default () => {
   app.use(koaLogger());
   const pug = new Pug({
     viewPath: path.join(__dirname, '..', 'views'),
-    debug: true,
-    pretty: true,
-    compileDebug: true,
     locals: [],
-    noCache: process.env.NODE_ENV !== 'production',
+    cache: process.env.NODE_ENV === 'production',
     basedir: path.join(__dirname, 'views'),
     helperPath: [
       { _ },

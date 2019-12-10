@@ -74,12 +74,11 @@ export default (router, io) => {
     })
     .get('/channels/:channelId/messages', (ctx) => {
       const messages = state.messages.filter((m) => m.channelId === ctx.params.channelId);
-      const resources = messages.map((m) => ({
+      ctx.body = messages.map((m) => ({
         type: 'channels',
         id: m.id,
         attributes: m,
       }));
-      ctx.body = resources;
     })
     .post('/channels/:channelId/messages', (ctx) => {
       const { data: { attributes } } = ctx.request.body;
@@ -102,8 +101,8 @@ export default (router, io) => {
     });
 
   return router
-    .get('root', '/', (ctx) => {
-      ctx.render('index', { gon: state });
+    .get('root', '/', async (ctx) => {
+      await ctx.render('index', { gon: state });
     })
     .use('/api/v1', apiRouter.routes(), apiRouter.allowedMethods());
 };

@@ -51,6 +51,9 @@ export default handleActions({
     },
   }),
 
-  [actions.hideRenameChannelModal]: (state) => ({ ...state, renameChannelModal: { ...state.renameChannelModal, show: false } }),
+  [actions.hideRenameChannelModal]: (state) => ({
+    ...state,
+    renameChannelModal: { ...state.renameChannelModal, show: false },
+  }),
 
 }, initState);
