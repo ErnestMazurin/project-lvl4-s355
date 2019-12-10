@@ -21,19 +21,17 @@ import webpackConfig from '../webpack.config';
 const isProduction = process.env.NODE_ENV === 'production';
 const isDevelopment = !isProduction;
 
-export default () => {
+export default (defaultState) => {
   const app = new Koa();
-  console.log(`App started in ${isProduction ? 'production' : 'development'} mode`);
-
   app.keys = ['some secret hurr'];
   app.use(bodyParser());
-  // app.use(serve(path.join(__dirname, '..', 'public')));
   if (isDevelopment) {
     koaWebpack({
       config: webpackConfig,
     }).then((middleware) => {
       app.use(middleware);
     });
+    app.use(koaLogger());
   } else {
     const urlPrefix = '/assets';
     const assetsPath = path.resolve(`${__dirname}/../dist`);
@@ -42,7 +40,7 @@ export default () => {
 
   const router = new Router();
 
-  app.use(koaLogger());
+
   const pug = new Pug({
     viewPath: path.join(__dirname, '..', 'views'),
     locals: [],
@@ -58,7 +56,7 @@ export default () => {
   const server = http.createServer(app.callback());
   const io = socket(server);
 
-  addRoutes(router, io);
+  addRoutes(router, io, defaultState);
   app.use(router.allowedMethods());
   app.use(router.routes());
 
