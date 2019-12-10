@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 import path from 'path';
 import Koa from 'koa';
 import Pug from 'koa-pug';
@@ -9,28 +11,27 @@ import Router from 'koa-router';
 import koaLogger from 'koa-logger';
 import koaWebpack from 'koa-webpack';
 import bodyParser from 'koa-bodyparser';
-import session from 'koa-generic-session';
 import _ from 'lodash';
 import addRoutes from './routes';
+
+import 'regenerator-runtime/runtime';
 
 import webpackConfig from '../webpack.config';
 
 const isProduction = process.env.NODE_ENV === 'production';
 const isDevelopment = !isProduction;
 
-export default () => {
+export default (defaultState) => {
   const app = new Koa();
-
   app.keys = ['some secret hurr'];
-  app.use(session(app));
   app.use(bodyParser());
-  // app.use(serve(path.join(__dirname, '..', 'public')));
   if (isDevelopment) {
     koaWebpack({
       config: webpackConfig,
     }).then((middleware) => {
       app.use(middleware);
     });
+    app.use(koaLogger());
   } else {
     const urlPrefix = '/assets';
     const assetsPath = path.resolve(`${__dirname}/../dist`);
@@ -39,11 +40,11 @@ export default () => {
 
   const router = new Router();
 
-  app.use(koaLogger());
+
   const pug = new Pug({
     viewPath: path.join(__dirname, '..', 'views'),
     locals: [],
-    cache: process.env.NODE_ENV === 'production',
+    cache: isProduction,
     basedir: path.join(__dirname, 'views'),
     helperPath: [
       { _ },
@@ -55,7 +56,7 @@ export default () => {
   const server = http.createServer(app.callback());
   const io = socket(server);
 
-  addRoutes(router, io);
+  addRoutes(router, io, defaultState);
   app.use(router.allowedMethods());
   app.use(router.routes());
 

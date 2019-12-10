@@ -1,18 +1,21 @@
 {
   "name": "my-slack",
-  "version": "0.0.1",
+  "version": "0.2.0",
   "description": "",
   "main": "dist/index.js",
   "engines": {
     "node": "9"
   },
   "scripts": {
-    "test": "jest",
-    "build-server": "babel server --out-dir dist --source-maps inline",
+    "test": "NODE_ENV=production jest",
+    "build-server": "babel server --out-dir dist --source-maps inline --ignore \"server/**/__tests__\"",
     "build-app": "npx webpack -p --env production",
     "build": "npm run build-app && npm run build-server",
     "postinstall": "npm run build",
-    "start": "node ./dist/bin/slack.js"
+    "start": "NODE_ENV=production node ./dist/bin/slack.js"
+  },
+  "jest": {
+    "roots": ["server", "src"]
   },
   "repository": {
     "type": "git",
@@ -34,14 +37,12 @@
     "bootstrap": "^4.4.1",
     "css-loader": "^3.2.1",
     "debug": "^4.1.0",
-    "dotenv": "^6.2.0",
     "faker": "^4.1.0",
     "gon": "1.0.3",
     "jquery": "^3.4.1",
     "js-cookie": "^2.2.0",
     "koa": "^2.11.0",
     "koa-bodyparser": "^4.2.1",
-    "koa-generic-session": "^2.0.1",
     "koa-logger": "^3.2.1",
     "koa-mount": "^4.0.0",
     "koa-pug": "^4.0.2",
@@ -80,6 +81,8 @@
     "eslint-plugin-react-hooks": "^2.3.0",
     "jest": "^24.9.0",
     "jest-cli": "^24.9.0",
-    "nodemon": "^2.0.1"
+    "jsdom": "^15.2.1",
+    "nodemon": "^2.0.1",
+    "supertest": "^4.0.2"
   }
 }

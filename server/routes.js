@@ -3,10 +3,10 @@ import Router from 'koa-router';
 
 const getNextId = () => Number(_.uniqueId());
 
-export default (router, io) => {
+const buildState = (defaultState = {}) => {
   const generalChannelId = getNextId();
   const randomChannelId = getNextId();
-  const defaultState = {
+  const state = {
     channels: [
       { id: generalChannelId, name: 'general', removable: false },
       { id: randomChannelId, name: 'random', removable: false },
@@ -15,7 +15,21 @@ export default (router, io) => {
     currentChannelId: generalChannelId,
   };
 
-  const state = { ...defaultState };
+  if (defaultState.messages) {
+    state.messages.push(...defaultState.messages);
+  }
+  if (defaultState.channels) {
+    state.channels.push(...defaultState.channels);
+  }
+  if (state.currentChannelId) {
+    state.currentChannelId = defaultState.currentChannelId;
+  }
+
+  return state;
+};
+
+export default (router, io, defaultState) => {
+  const state = buildState(defaultState);
 
   const apiRouter = new Router();
   apiRouter
@@ -73,9 +87,10 @@ export default (router, io) => {
       io.emit('renameChannel', data);
     })
     .get('/channels/:channelId/messages', (ctx) => {
-      const messages = state.messages.filter((m) => m.channelId === ctx.params.channelId);
+      const channelId = Number(ctx.params.channelId);
+      const messages = state.messages.filter((msg) => msg.channelId === channelId);
       ctx.body = messages.map((m) => ({
-        type: 'channels',
+        type: 'messages',
         id: m.id,
         attributes: m,
       }));

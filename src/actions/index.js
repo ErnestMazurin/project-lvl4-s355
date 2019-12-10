@@ -1,3 +1,5 @@
+/* eslint-disable no-console */
+
 import axios from 'axios/index';
 import { createAction } from 'redux-actions';
 import routes from '../routes';
