@@ -1,8 +1,22 @@
-language: node_js
-node_js:
-- stable
+language: java
+
+jdk:
+  - openjdk14
+
+env:
+  - NODE_VERSION="v12.16.1"
+
+before_install:
+  - nvm install $NODE_VERSION
 
 script:
-- make lint
-- make test
-- make build
+  - yarn
+  - yarn lint
+  - yarn build
+  - yarn test
+  - mvn clean install
+
+deploy:
+  provider: heroku
+  api_key:
+    secure: eK4Ihd9AEgGfmsKGidNOTM2HGucPWkniXItOyOBKOLCyFPDgEUQ46HGfhpcyND1f4D2cvCfBy+5wBTXI96PJaMBpXnk6gPeUBykPErWT9snHERlOQjAKX4dSlJ2+4xlsMODmNAhzqinCLxqVKR8B0tCujZfX2TowS8q6ZbNHieGqJLVKWmt9rVLNgvKcV3ED32qY5/Ha1bXM+nrYMzq5oxGtBKZ7UO8RZ2+06Y3EVIttQewxMMF3AyCO2AxQD12mlKee0FNOlb9+NRCGww3ueos3iwClqbQlp7y55EFhm6b92SWkmFTXYGeRE4SSX0skZu79OH0r7h+AIOEfPtc5ZP3LOwPm9wDhjIjs0UxLt4LhzjA70Wq5vC7X2tdnaiTupL3WV0VUtFdevtui0GiJO4O2P4WBzv5JqK0Q3GIFPVC+UUpG8R7QTWka7QfOYAaJ7scqU8caSBwccbgInOg6CXHhJdEnqp7MlVeVmMtHm5MsHDj+FeLS4FByOx8C8G4CDyFu+OWasuRxKtAF2jH4JJKT5U3VIG2/TyM5p28DZYhFBcTR32nDnl356ohQdy2OXRBix+qDl5aNuPNYvkXK1K/GTJRGmaNeQO35pT8YsJcLuxP8ZmDa+k4fPh5aSePJm9QO84LOrMuBgWVLIMw9HxLauFKPkz40wlaniKQIo3E=

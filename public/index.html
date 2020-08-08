@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>my-slack</title>
+</head>
+<body>
+<div id="my-slack-app"></div>
+<script th:inline="javascript">var SERVER_DATA={channels:[[${channels}]],messages:[[${messages}]]}</script>
+</body>
+</html>
