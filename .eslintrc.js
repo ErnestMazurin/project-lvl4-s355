@@ -1,15 +1,18 @@
 module.exports = {
-  extends: [
-    require.resolve('eslint-config-airbnb'),
-  ],
-  plugins: ['jest', 'react', 'react-hooks'],
-  parser: 'babel-eslint',
   env: {
     browser: true,
     node: true,
-    jest: true,
+  },
+  extends: ['plugin:react/recommended', 'plugin:prettier/recommended'],
+  parser: 'babel-eslint',
+  settings: {
+    react: {
+      version: 'latest',
+    },
   },
   rules: {
-    'react/prop-types': ['off'],
+    'react/destructuring-assignment': 0,
+    'react/prop-types': 'off',
+    'react/display-name': 'off',
   },
 };
