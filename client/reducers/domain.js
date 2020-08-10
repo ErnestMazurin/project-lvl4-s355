@@ -1,5 +1,7 @@
 import { handleActions } from 'redux-actions';
-import _ from 'lodash';
+import omit from 'lodash/omit';
+import omitBy from 'lodash/omitBy';
+import has from 'lodash/has';
 import * as actions from '../actions';
 
 const initState = {
@@ -21,10 +23,10 @@ export const messages = handleActions(
     }),
 
     [actions.deleteChannel]: ({ byId, allIds }, { payload: { id } }) => {
-      const newMessages = _.omitBy(byId, (msg) => msg.channelId === id);
+      const newMessages = omitBy(byId, (msg) => msg.channelId === id);
       return {
         byId: newMessages,
-        allIds: allIds.filter((identifier) => _.has(newMessages, identifier)),
+        allIds: allIds.filter((identifier) => has(newMessages, identifier)),
       };
     },
   },
@@ -49,7 +51,7 @@ export const channels = handleActions(
     }),
 
     [actions.deleteChannel]: ({ byId, allIds }, { payload: { id } }) => ({
-      byId: _.omit(byId, id),
+      byId: omit(byId, id),
       allIds: allIds.filter((index) => index !== id),
     }),
 

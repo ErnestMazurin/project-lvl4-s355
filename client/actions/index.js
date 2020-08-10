@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 
-import axios from 'axios/index';
-import { createAction } from 'redux-actions';
+import axios from 'axios';
+import createAction from 'redux-actions/es/createAction';
 import * as routes from '../routes';
 
 export const newChannel = createAction('TASK_NEW_CHANNEL');

@@ -1,22 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import { createStore, applyMiddleware, compose } from 'redux';
+import Provider from 'react-redux/es/components/Provider';
+import { createStore, applyMiddleware } from 'redux';
 import thunk from 'redux-thunk';
-import logger from 'redux-logger';
+import cookies from 'js-cookie';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 import App from './components/App';
 import reducer from './reducers';
 import * as actions from './actions';
-import setAndGetUsername from './setAndGetUsername';
 import UsernameContext from './UsernameContext';
 import { connect } from './StompClient';
-
-if (process.env.NODE_ENV !== 'production') {
-  localStorage.debug = 'chat:*';
-}
 
 /**
 type Channel = {
@@ -35,7 +30,7 @@ type Message = {
 }
  */
 
-const store = createStore(reducer, compose(applyMiddleware(thunk), applyMiddleware(logger)));
+const store = createStore(reducer, applyMiddleware(thunk));
 
 // eslint-disable-next-line no-undef
 SERVER_DATA.channels.forEach((channel) =>
@@ -87,11 +82,12 @@ connect({
     ),
 });
 
-const username = setAndGetUsername();
+const firstName = cookies.get('firstname');
+const lastName = cookies.get('lastname');
 
 ReactDOM.render(
   <Provider store={store}>
-    <UsernameContext.Provider value={username}>
+    <UsernameContext.Provider value={`${firstName} ${lastName}`}>
       <App />
     </UsernameContext.Provider>
   </Provider>,
