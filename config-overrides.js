@@ -1,8 +1,23 @@
 const path = require('path');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const SRC_ROOT = 'client';
 
 module.exports = {
+  webpack: (config) => {
+    config.plugins.push(
+      new BundleAnalyzerPlugin({
+        analyzerMode: 'static',
+        reportFilename: path.resolve(__dirname, 'reports', 'bundle-report.html'),
+        openAnalyzer: false,
+      }),
+    );
+    const htmlWebpackPlugin = config.plugins.find((plugin) => plugin.constructor.name === 'HtmlWebpackPlugin');
+    if (htmlWebpackPlugin !== undefined) {
+      htmlWebpackPlugin.options.minify.minifyJS = false;
+    }
+    return config;
+  },
   jest: (config) => {
     config.roots = [path.resolve(__dirname, SRC_ROOT)];
     config.collectCoverageFrom = [`${SRC_ROOT}/**/*.{js,jsx,ts,tsx}`, `!${SRC_ROOT}/**/*.d.ts`];

@@ -1,7 +1,7 @@
 import React from 'react';
-import _ from 'lodash';
+import values from 'lodash/values';
 import { connect } from 'react-redux';
-import { Button } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
 import { Icon } from 'react-icons-kit';
 import { remove } from 'react-icons-kit/fa/remove';
 import { gear } from 'react-icons-kit/fa/gear';
@@ -20,7 +20,7 @@ import RenameChannelModal from './RenameChannelModal';
  */
 
 const mapStateToProps = ({ channels: { byId }, ui: { currentChannelId } }) => ({
-  channels: _.values(byId),
+  channels: values(byId),
   currentChannelId,
 });
 

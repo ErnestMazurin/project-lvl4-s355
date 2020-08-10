@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import _ from 'lodash';
+import has from 'lodash/has';
 import * as actionCreators from '../actions';
 import UsernameContext from '../UsernameContext';
 
@@ -22,7 +22,7 @@ import UsernameContext from '../UsernameContext';
  */
 
 const mapStateToProps = ({ messages: { byId, allIds }, channels, ui: { currentChannelId } }) => {
-  if (!_.has(channels.byId, currentChannelId)) {
+  if (!has(channels.byId, currentChannelId)) {
     return { messages: [] };
   }
 

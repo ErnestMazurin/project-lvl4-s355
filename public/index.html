@@ -6,6 +6,6 @@
 </head>
 <body>
 <div id="my-slack-app"></div>
-<script th:inline="javascript">var SERVER_DATA={channels:[[${channels}]],messages:[[${messages}]]}</script>
+<script th:inline="javascript">var SERVER_DATA={channels:/*[[${channels}]]*/[],messages:/*[[${messages}]]*/[]};</script>
 </body>
 </html>
